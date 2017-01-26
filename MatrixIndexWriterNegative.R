@@ -1,6 +1,12 @@
 setwd("C:/Users/faisal/Downloads/Drug-Target")
 rm(list=ls())
 
+library(foreach)
+library(doParallel)
+
+cl<-makeCluster(3)
+registerDoParallel(cl)
+
 file_drug_target_matrix = "3_12859_2016_1377_MOESM3_ESM.txt"
 file_drug_feature_vector = "6_12859_2016_1377_MOESM6_ESM.txt"
 file_target_feature_vector = "7_12859_2016_1377_MOESM7_ESM.txt"
@@ -16,7 +22,7 @@ if(exists("matrix_index")){
 instance_count = 1
 file_count = 1
 
-for(i in 1:nrow(drug_target_matrix)){
+foreach(i=1:nrow(drug_target_matrix)) %dopar% {
   for(j in 1:ncol(drug_target_matrix)){
     if(drug_target_matrix[i,j] == 0){
       if(!exists("matrix_index")){
@@ -29,3 +35,5 @@ for(i in 1:nrow(drug_target_matrix)){
 }
 
 write.csv(matrix_index, "matrix_index.csv", row.names = FALSE, quote= FALSE)
+
+stopCluster(cl)
