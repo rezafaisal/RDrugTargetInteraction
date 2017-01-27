@@ -1,7 +1,6 @@
 setwd("C:/Users/faisal/Downloads/Drug-Target")
 rm(list=ls())
 
-
 file_drug_target_matrix = "3_12859_2016_1377_MOESM3_ESM.txt"
 drug_target_matrix = read.table(file_drug_target_matrix)
 drug_index_start = 1
